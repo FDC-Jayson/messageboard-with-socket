@@ -1,0 +1,6 @@
+services:
+  app:
+    image: messageboard-socket-server
+    command: sh -c "npm install && node index.js"
+    ports:
+      - 127.0.0.1:3000:3000

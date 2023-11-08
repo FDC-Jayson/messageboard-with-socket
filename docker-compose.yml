@@ -1,0 +1,41 @@
+version: '3'
+services:
+  cakephp2:
+    build:
+      context: ./message-app
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./message-app:/var/www/html
+
+  nodejs:
+    build:
+      context: ./socket-server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./socket-server:/app
+
+  mysql_db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      # - ./mysql/mysql-data:/var/lib/mysql:delegated
+      - ./sql-dumps:/docker-entrypoint-initdb.d  # Mount the directory with the SQL dump as an init script
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 3001:80
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: mysql_db  # Use the correct MySQL service name
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root

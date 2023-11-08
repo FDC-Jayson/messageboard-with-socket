@@ -1,0 +1,1 @@
+<div style="background:#28a745 !important;border:1px #28a745" id="<?php echo $key; ?>Message" class="<?php echo !empty($params['class']) ? $params['class'] : 'message'; ?>"><?php echo $message; ?></div>
